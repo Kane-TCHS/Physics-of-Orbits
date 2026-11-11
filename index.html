@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Physics of Orbits · Guided Practice</title>
+<style>
+:root{--navy:#10283b;--teal:#176d7c;--teal-l:#e6f4f4;--paper:#f3f6f9;--line:#d6dfe8;--ink:#17283f;--muted:#53637a;--good:#13704a;--good-l:#e5f5ec;--warn:#9a4a0c;--warn-l:#fff3e3;--gold:#b77a10}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,textarea{font:inherit}
+header{background:linear-gradient(110deg,#10283b,#164b55);color:#fff;padding:38px max(22px,calc((100vw - 1040px)/2)) 30px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:440px;height:180px;border:2px solid #7fd6d055;border-radius:50%;right:-90px;top:10px;transform:rotate(-22deg)}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:800}
+header .eyebrow{color:#9be1dc}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:10px 0}
+header p{max-width:680px;color:#d6e6ee;margin:6px 0 14px}
+.pill{display:inline-block;background:#ffffff18;border:1px solid #ffffff44;border-radius:20px;padding:3px 12px;margin:0 6px 6px 0;font-size:13px}
+nav{position:sticky;top:0;z-index:30;background:#fffffff7;border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px;padding:4px 8px;border-radius:6px}
+nav a:hover{color:var(--teal);background:var(--teal-l)}
+.navright{margin-left:auto;display:flex;gap:10px;align-items:center}
+.score-chip{background:var(--navy);color:#fff;border-radius:20px;padding:4px 13px;font-weight:800;font-size:14px;white-space:nowrap}
+main{max-width:1040px;margin:0 auto;padding:10px 18px 70px}
+section{margin:34px 0}
+h2{font-size:27px;line-height:1.2;margin:4px 0 12px}
+h3{font-size:19px;margin:0 0 8px;line-height:1.3}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin:16px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.fieldrow{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px}
+label.f{display:block;font-weight:650;font-size:14px}
+label.f input{display:block;width:100%;margin-top:4px;padding:9px 11px;border:1px solid #aebccc;border-radius:8px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:8px 15px;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--teal-l)}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.primary:hover{background:#125866}
+.btn.small{padding:5px 11px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid #d37b00;outline-offset:2px}
+.callout{border-left:4px solid var(--teal);background:var(--teal-l);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.callout.warm{border-color:var(--gold);background:var(--warn-l)}
+.howto{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.howto div{background:var(--teal-l);border-radius:10px;padding:12px;font-size:14px}
+.howto b{display:block;color:var(--teal);font-size:15px}
+.part-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.part-pts{color:var(--teal);font-weight:800}
+.small{font-size:13px;color:var(--muted)}
+.formula{font-family:Georgia,"Times New Roman",serif;font-size:23px;color:#163e55;margin:6px 0}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;font-size:.9em;margin:0 3px}
+.frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 4px 2px}
+.frac>span:last-child{padding:2px 4px 0}
+.viz{background:#0c1b2e;border-radius:12px;padding:6px}
+.viz svg{display:block;width:100%;height:auto}
+.toggle{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.toggle .btn[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:#fff}
+/* items */
+.item{border:1px solid var(--line);border-radius:12px;padding:15px 16px;margin:12px 0;background:#fff;transition:border-color .2s,background .2s}
+.item.done{border-color:#8fd0ad;background:#f6fcf8}
+.item.locked{opacity:.5}
+.item-head{display:flex;gap:10px;align-items:flex-start}
+.stepnum{flex-shrink:0;background:var(--teal-l);color:var(--teal);font-weight:800;border-radius:6px;padding:1px 9px;font-size:13px;margin-top:2px}
+.item.done .stepnum{background:var(--good);color:#fff}
+.item-prompt{flex:1}
+.item-pt{font-size:12px;color:var(--muted);white-space:nowrap;margin-top:3px}
+.guide{font-size:14px;color:var(--muted);margin:5px 0 0}
+.answer-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.answer-row input{width:230px;max-width:100%;padding:8px 11px;border:1.5px solid #9fb2c6;border-radius:8px;font-family:ui-monospace,Consolas,monospace;font-size:16px}
+.item.done input{border-color:var(--good);background:#fff}
+.unit{font-weight:700;color:var(--muted);min-width:22px}
+.fb{margin-top:8px;font-size:14px;min-height:0}
+.fb.good{color:var(--good);font-weight:700}
+.fb.retry{color:var(--warn)}
+.hintbox{margin-top:8px;font-size:14px;background:#fff8e8;border:1px dashed #d8b469;border-radius:8px;padding:9px 12px}
+.choices{display:grid;gap:7px;margin-top:10px}
+.choice{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:9px 13px;cursor:pointer;font-weight:550}
+.choice:hover:not(:disabled){border-color:var(--teal);background:var(--teal-l)}
+.choice.picked-wrong{border-color:#e0a46b;background:var(--warn-l)}
+.choice.picked-right{border-color:var(--good);background:var(--good-l);font-weight:750}
+.choice:disabled{cursor:default}
+.problem{border-top:4px solid var(--teal)}
+.prob-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.qnum{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--teal-l);color:var(--teal);font-weight:800;flex-shrink:0}
+.level{font-size:12px;font-weight:800;border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.5px}
+.lv1{background:#e2f1ff;color:#1d5a94}.lv2{background:#e7f5ef;color:#1c6a48}.lv3{background:#fdf1df;color:#8a5207}.lv4{background:#f6e7f3;color:#7b2d6c}
+.prob-pts{margin-left:auto;font-weight:800;color:var(--teal);font-size:14px}
+.prompt{font-size:17px;background:#f6f9fb;border-radius:9px;padding:11px 14px;margin:8px 0 4px}
+.prob-done{display:none;margin-top:10px;background:var(--good-l);color:var(--good);border-radius:8px;padding:8px 12px;font-weight:700;font-size:14px}
+.problem.complete .prob-done{display:block}
+details.work{margin-top:12px}
+details.work summary{cursor:pointer;font-size:14px;font-weight:700;color:var(--muted)}
+details.work textarea{width:100%;min-height:90px;margin-top:6px;border:1px solid #aebccc;border-radius:8px;padding:9px;font-family:ui-monospace,Consolas,monospace;font-size:14px}
+/* worked examples */
+.example{border-top:4px solid var(--gold)}
+.example .tag{background:var(--warn-l);color:var(--warn);font-size:12px;font-weight:800;border-radius:6px;padding:3px 8px;text-transform:uppercase;letter-spacing:.5px}
+.ex-steps{list-style:none;padding:0;margin:12px 0}
+.ex-steps li{display:none;border-left:3px solid #e2c78f;padding:6px 0 6px 14px;margin:6px 0}
+.ex-steps li.show{display:block;animation:fade .35s}
+.ex-steps li b.k{color:var(--gold);display:block;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+.math{font-family:Georgia,"Times New Roman",serif;font-size:18px}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* reference drawer */
+#ref{position:fixed;top:0;right:0;height:100%;width:min(380px,92vw);background:#fff;z-index:40;box-shadow:-8px 0 30px #0003;padding:20px 22px;overflow-y:auto;transform:translateX(105%);transition:transform .25s}
+#ref.open{transform:none}
+#ref h3{margin-top:16px}
+#ref table{border-collapse:collapse;width:100%;font-size:14px}
+#ref td{padding:5px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+#ref .formula{font-size:20px}
+.closeref{float:right}
+/* finish */
+.bigscore{font-size:46px;font-weight:800;color:var(--teal);line-height:1}
+.progress{height:9px;background:#dfe7ee;border-radius:5px;overflow:hidden;margin:10px 0}
+.progress div{height:100%;background:var(--teal);transition:width .3s}
+.todo a{color:#1d5a94}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 22px;border-radius:10px;z-index:60;display:none;max-width:90%}
+.print-only{display:none}
+@media(max-width:780px){.grid2,.fieldrow,.howto{grid-template-columns:1fr}.card{padding:16px}nav a{font-size:13px;padding:3px 5px}.navright{margin-left:0;width:100%;justify-content:space-between}}
+@media print{
+ @page{size:letter;margin:.55in}
+ body{background:#fff;font:10pt/1.35 Arial,sans-serif;color:#000}
+ header,nav,main,#ref,.toast{display:none!important}
+ .print-only{display:block}
+ #report h1{font-size:18pt;margin:0 0 4px}
+ #report .meta{border-bottom:1px solid #999;padding-bottom:6px;margin-bottom:10px}
+ #report table{border-collapse:collapse;width:100%;margin:4px 0 12px;table-layout:fixed}
+ #report th:nth-child(1){width:27%} #report th:nth-child(2){width:37%} #report th:nth-child(3){width:9%} #report th:nth-child(4){width:8%}
+ #report td:nth-child(3){text-align:center}
+ #report th,#report td{border:1px solid #bbb;padding:3px 6px;text-align:left;font-size:9.5pt;vertical-align:top}
+ #report th{background:#eee}
+ #report h2{font-size:11.5pt;margin:12px 0 3px;break-after:avoid}
+ #report .notes{white-space:pre-wrap;border:1px solid #ccc;padding:5px 7px;font-family:Consolas,monospace;font-size:9pt;margin:3px 0 8px;break-inside:avoid}
+ #report tr{break-inside:avoid}
+ #report .foot{font-size:8pt;border-top:1px solid #999;margin-top:12px;padding-top:4px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">Orbital Mechanics · Assignment 3 of 3</div>
+ <h1>Physics of Orbits</h1>
+ <p>Work step by step from a worked example to solving on your own. Every answer box checks itself, so you’ll know right away if you’re on track.</p>
+ <span class="pill">20 points</span><span class="pill">Unlimited tries</span><span class="pill">Calculator required</span>
+</header>
+
+<nav aria-label="Sections">
+ <a href="#start">Start</a><a href="#identify">1 · Identify</a><a href="#explain">2 · Explain</a><a href="#apply">3 · Apply</a><a href="#finish">Finish</a>
+ <div class="navright"><button class="btn small" id="refBtn" aria-expanded="false" aria-controls="ref">📋 Formulas &amp; constants</button><span class="score-chip" id="scoreChip">0 / 20</span></div>
+</nav>
+
+<aside id="ref" aria-label="Formulas and constants" aria-hidden="true">
+ <button class="btn small closeref" id="refClose">Close ✕</button>
+ <h3 style="margin-top:4px">Formulas</h3>
+ <p class="small" style="margin:0">Gravitational Potential Energy</p>
+ <div class="formula">U = −<span class="frac"><span>GMm</span><span>R</span></span></div>
+ <p class="small" style="margin:0">Kinetic Energy</p>
+ <div class="formula">K = ½mv²</div>
+ <p class="small" style="margin:0">Total Energy of an Orbit (circular)</p>
+ <div class="formula">E = U + K = −<span class="frac"><span>GMm</span><span>2R</span></span></div>
+ <p class="small" style="margin:0">Changing Orbit Altitudes</p>
+ <div class="formula">E<sub>change</sub> = E<sub>2</sub> − E<sub>1</sub></div>
+ <h3>The meaning of “R”</h3>
+ <div class="formula" style="font-size:18px">R = radius of Earth + satellite altitude</div>
+ <p class="small">R is measured from the <b>center</b> of the planet, in <b>meters</b>.</p>
+ <h3>Constants</h3>
+ <table>
+  <tr><td>G</td><td>6.67 × 10<sup>−11</sup> m³/(kg·s²)</td></tr>
+  <tr><td>M<sub>Earth</sub></td><td>5.98 × 10<sup>24</sup> kg</td></tr>
+  <tr><td>Radius of Earth</td><td>6.378 × 10<sup>3</sup> km<br>= 6.378 × 10<sup>6</sup> m</td></tr>
+  <tr><td>1 km</td><td>1,000 m</td></tr>
+ </table>
+ <h3>Symbols</h3>
+ <table>
+  <tr><td>M</td><td>mass of the central body (Earth), kg</td></tr>
+  <tr><td>m</td><td>mass of the orbiting body (satellite), kg</td></tr>
+  <tr><td>U, K, E</td><td>energies, J (joules)</td></tr>
+ </table>
+ <h3>Typing your answers</h3>
+ <p class="small">Any of these work: <code>7.18e6</code> · <code>7.18 x 10^6</code> · <code>7180000</code>. Round to 3 significant figures. Use a minus sign for negative values.</p>
+ <p class="small">Calculator tip: type 6.67 <b>EE</b> −11 (or <b>×10ˣ</b>) instead of “× 10 ^”.</p>
+</aside>
+
+<main>
+<section id="start">
+ <div class="card">
+  <div class="fieldrow">
+   <label class="f">Your name<input id="f_name" type="text" autocomplete="name" placeholder="First and last name"></label>
+   <label class="f">Class period<input id="f_period" type="text" placeholder="Period"></label>
+   <label class="f">Date<input id="f_date" type="date"></label>
+  </div>
+  <h3 style="margin-top:16px">How this works</h3>
+  <div class="howto">
+   <div><b>1 · Work it out</b>Use your calculator and the 📋 Formulas button at the top.</div>
+   <div><b>2 · Type &amp; check</b>Enter your answer and press <b>Check</b> (or Enter).</div>
+   <div><b>3 · Use the feedback</b>Wrong answers get a specific tip. After one miss, a <b>Hint</b> button appears.</div>
+   <div><b>4 · Export</b>When you’re done, save your report as a PDF and submit it in Canvas.</div>
+  </div>
+  <p class="small" style="margin-top:12px">You get unlimited tries and each correct answer earns 1 point. You may work with classmates and compare notes. Everyone has the same problems. Your progress saves in this browser on this computer.</p>
+ </div>
+</section>
+
+<!-- ================= PART 1 ================= -->
+<section id="identify">
+ <div class="part-head"><div class="eyebrow" style="color:var(--teal)">Part 1</div><span class="part-pts">4 points</span></div>
+ <h2>Identify: what goes into the formulas</h2>
+ <div class="card">
+  <div class="grid2">
+   <div>
+    <div class="viz"><svg id="rSvg" viewBox="0 0 640 310" role="img" aria-label="Earth with a satellite. Distance A runs from Earth's center to its surface. Distance B runs from the surface to the satellite. Distance C runs from Earth's center to the satellite."></svg></div>
+    <label class="small" for="rSlider" style="display:block;margin-top:8px">Move the satellite farther from Earth:</label>
+    <input id="rSlider" type="range" min="0" max="100" value="35" style="width:100%;accent-color:var(--teal)">
+   </div>
+   <div>
+    <h3>Three distances</h3>
+    <p>The diagram shows three distances: <b>A</b>, <b>B</b> and <b>C</b>. Move the satellite with the slider and watch which distances change.</p>
+    <p>All three are real distances, but only one of them is <b>R</b> in the energy formulas. Choosing the wrong one is the most common mistake in this assignment.</p>
+    <div class="callout warm small" style="color:var(--ink)">Problems give you the satellite’s <b>altitude</b>, its height above Earth’s <b>surface</b>.</div>
+   </div>
+  </div>
+  <div data-mount="i1"></div>
+  <div data-mount="i2"></div>
+ </div>
+ <div class="card">
+  <h3>Reading the formulas</h3>
+  <p>Open the <b>📋 Formulas</b> button at the top if you need it.</p>
+  <div data-mount="i3"></div>
+  <div data-mount="i4"></div>
+ </div>
+</section>
+
+<!-- ================= PART 2 ================= -->
+<section id="explain">
+ <div class="part-head"><div class="eyebrow" style="color:var(--teal)">Part 2</div><span class="part-pts">3 points</span></div>
+ <h2>Explain: lower orbit vs. higher orbit</h2>
+ <div class="card">
+  <p>The same satellite can be in a lower or a higher <b>circular</b> orbit. Switch between them and watch two things: <b>how fast the satellite moves</b> and <b>the energy bars</b>.</p>
+  <div class="toggle" role="group" aria-label="Choose an orbit">
+   <button class="btn" data-orbit="low" aria-pressed="true">Lower orbit</button>
+   <button class="btn" data-orbit="high" aria-pressed="false">Higher orbit</button>
+   <button class="btn" id="playBtn" aria-pressed="true">⏸ Pause</button>
+  </div>
+  <div class="grid2">
+   <div class="viz"><svg id="orbitSvg" viewBox="0 0 360 300" role="img" aria-label="A satellite circling a planet in the selected orbit"></svg></div>
+   <div class="viz"><svg id="barSvg" viewBox="0 0 360 300" role="img" aria-label="Energy bars: kinetic energy K above zero, potential energy U and total energy E below zero"></svg></div>
+  </div>
+  <p class="small">The bars show how the energies compare. They aren’t to scale for any real satellite. Bars above the line are positive and bars below it are negative.</p>
+  <div data-mount="e1"></div>
+  <div data-mount="e2"></div>
+  <div data-mount="e3"></div>
+ </div>
+</section>
+
+<!-- ================= PART 3 ================= -->
+<section id="apply">
+ <div class="part-head"><div class="eyebrow" style="color:var(--teal)">Part 3</div><span class="part-pts">13 points</span></div>
+ <h2>Apply: solve the five problems</h2>
+ <p>Start with the worked example, which is the one from the slides. Problem 1 walks you through every step. Each problem after that gives you a little less help. By Problem 5 you’re working on your own.</p>
+
+ <div class="card example">
+  <div class="prob-head"><span class="tag">Worked example</span><h3 style="margin:0">Gravitational Potential Energy (U)</h3></div>
+  <div class="prompt">A shuttle with a mass of <b>103,000 kg</b> is flying <b>370 km</b> above Earth’s surface. How much gravitational potential energy does it have?</div>
+  <ol class="ex-steps" id="exA">
+   <li><b class="k">Step 1 · List what you know</b>m = 103,000 kg (shuttle) · altitude = 370 km · M<sub>Earth</sub> = 5.98 × 10<sup>24</sup> kg · radius of Earth = 6.378 × 10<sup>6</sup> m</li>
+   <li><b class="k">Step 2 · Find R in meters</b>370 km × 1,000 = 3.70 × 10<sup>5</sup> m<br><span class="math">R = 6.378 × 10<sup>6</sup> m + 3.70 × 10<sup>5</sup> m = <b>6.748 × 10<sup>6</sup> m</b></span></li>
+   <li><b class="k">Step 3 · Calculate the top of the fraction (G·M·m)</b><span class="math">(6.67 × 10<sup>−11</sup>)(5.98 × 10<sup>24</sup>)(103,000) = 4.108 × 10<sup>19</sup></span></li>
+   <li><b class="k">Step 4 · Divide by R, and keep the minus sign</b><span class="math">U = −<span class="frac"><span>4.108 × 10<sup>19</sup></span><span>6.748 × 10<sup>6</sup></span></span> = <b>−6.09 × 10<sup>12</sup> J</b></span><br><span class="small">The slide labels this answer “E,” but it’s the potential energy U.</span></li>
+  </ol>
+  <button class="btn primary small" data-reveal="exA">Show next step</button> <button class="btn small" data-revealall="exA">Show all</button>
+ </div>
+
+ <div data-problem="p1"></div>
+ <div data-problem="p2"></div>
+ <div data-problem="p3"></div>
+ <div data-problem="p4"></div>
+
+ <div class="card example">
+  <div class="prob-head"><span class="tag">Worked example</span><h3 style="margin:0">Changing Orbit Altitudes</h3></div>
+  <div class="prompt">A news station wants to move a <b>12,000 kg</b> weather satellite, in a circular orbit, from <b>650 km</b> above Earth’s surface to an orbit <b>800 km</b> above Earth’s surface. How much energy will this procedure require?</div>
+  <ol class="ex-steps" id="exB">
+   <li><b class="k">Step 1 · Find both R values in meters</b><span class="math">R<sub>1</sub> = 6.378 × 10<sup>6</sup> + 6.50 × 10<sup>5</sup> = 7.028 × 10<sup>6</sup> m<br>R<sub>2</sub> = 6.378 × 10<sup>6</sup> + 8.00 × 10<sup>5</sup> = 7.178 × 10<sup>6</sup> m</span></li>
+   <li><b class="k">Step 2 · Total energy in the starting orbit</b><span class="math">E<sub>1</sub> = −<span class="frac"><span>(6.67 × 10<sup>−11</sup>)(5.98 × 10<sup>24</sup>)(12,000)</span><span>2(7.028 × 10<sup>6</sup>)</span></span> = <b>−3.405 × 10<sup>11</sup> J</b></span></li>
+   <li><b class="k">Step 3 · Total energy in the final orbit</b><span class="math">E<sub>2</sub> = −<span class="frac"><span>(6.67 × 10<sup>−11</sup>)(5.98 × 10<sup>24</sup>)(12,000)</span><span>2(7.178 × 10<sup>6</sup>)</span></span> = <b>−3.334 × 10<sup>11</sup> J</b></span></li>
+   <li><b class="k">Step 4 · Final minus initial</b><span class="math">E<sub>change</sub> = E<sub>2</sub> − E<sub>1</sub> = (−3.334 × 10<sup>11</sup>) − (−3.405 × 10<sup>11</sup>) = <b>+7.1 × 10<sup>9</sup> J</b></span><br>The positive sign means energy must be <b>added</b> to change orbits.</li>
+   <li><b class="k">⚠ Watch out · Don’t round too early</b>The slide shows +8 × 10<sup>9</sup> J. It got that by rounding E<sub>1</sub> and E<sub>2</sub> to −3.41 and −3.33 before subtracting. When two numbers are this close together, small rounding errors become a big error in the difference. <b>Keep at least four digits until the final step.</b></li>
+  </ol>
+  <button class="btn primary small" data-reveal="exB">Show next step</button> <button class="btn small" data-revealall="exB">Show all</button>
+ </div>
+
+ <div data-problem="p5"></div>
+</section>
+
+<!-- ================= FINISH ================= -->
+<section id="finish">
+ <h2>Finish and submit</h2>
+ <div class="card">
+  <div class="bigscore" id="finalScore">0 / 20</div>
+  <div class="progress"><div id="finalBar" style="width:0%"></div></div>
+  <div id="todo" class="todo small"></div>
+  <p style="margin-top:14px"><button class="btn primary" id="exportBtn">Export report to PDF</button></p>
+  <p class="small">In the print window, choose <b>Save as PDF</b> as the destination, then upload the PDF to Canvas. The report lists your answers, which ones are correct, your number of tries, and any work notes you typed.</p>
+  <p class="small" id="exportMsg" role="status"></p>
+ </div>
+</section>
+<p class="small">Based on PLTW Aerospace Engineering “Physics of Orbits” and the AGI “Introduction to the Physics of Orbits” presentation.</p>
+</main>
+
+<div id="report" class="print-only"></div>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const TOL=0.015;               // 1.5% relative tolerance (accepts 3-sig-fig rounding)
+const G=6.67e-11, ME=5.98e24, RE=6.378e6, MJ=3.74e21, RJ=5.4e6;
+const GMe=G*ME, GMj=G*MJ;
+const km=x=>x*1000;
+
+/* ---------- shared feedback messages (never state the correct value) ---------- */
+const M={
+ alt:"That looks like you used only the altitude. R is measured from Earth’s <b>center</b>: radius of Earth + altitude.",
+ earthOnly:"That’s just the radius of Earth. R also has to include the satellite’s altitude.",
+ kmLeft:"Your distance still looks like it’s in kilometers. Convert km to meters (× 1,000) before adding or substituting.",
+ pow:"Your digits look right, but the power of ten is off. Check your km → m conversion and your exponent.",
+ two:"Check the denominator. Total energy uses <b>2R</b>, not R.",
+ extraTwo:"There’s an extra 2 in there. The 2R denominator is only for <b>total</b> energy; potential energy uses R.",
+ signU:"Check your sign. Look at the sign in front of the formula.",
+ generic:"Not yet. Recheck your setup and your calculator entry, one piece at a time.",
+ parse:"I couldn’t read that as a number. Try a format like <code>7.18e6</code> or <code>7.18 x 10^6</code>."
+};
+
+/* ---------- item bank ---------- */
+const ITEMS={
+ /* Part 1 – Identify */
+ i1:{type:"mc",label:"Which distance is R?",prompt:"In the energy formulas, which distance on the diagram is <b>R</b>?",
+  opts:[["A — from Earth’s center to its surface",0,"A is the radius of Earth. It doesn’t reach the satellite at all."],
+        ["B — from Earth’s surface to the satellite",0,"B is the altitude, which is what problems usually give you. The formulas measure from somewhere else."],
+        ["C — from Earth’s center to the satellite",1,""]]},
+ i2:{type:"num",label:"Radius of Earth in meters",prompt:"The slides give the radius of Earth as <b>6.378 × 10<sup>3</sup> km</b>. Write it in <b>meters</b>.",unit:"m",
+  ans:()=>RE, traps:()=>[[RE/1000,"That’s still kilometers. There are 1,000 meters in 1 kilometer."]],
+  hint:"Multiply kilometers by 1,000 to get meters. Multiplying by 1,000 adds 3 to the exponent."},
+ i3:{type:"mc",label:"Sign of U in orbit",prompt:"A satellite is in orbit around Earth. Its gravitational potential energy <b>U</b> is…",
+  opts:[["Positive",0,"Look at the formula U = −GMm/R. G, M, m and R are all positive numbers, so what does the sign in front do?"],
+        ["Negative",1,""],
+        ["Zero",0,"U only reaches zero infinitely far from Earth. Any satellite in orbit is much closer than that."]]},
+ i4:{type:"mc",label:"Total-energy formula",prompt:"Which formula gives the <b>total energy</b> of a satellite in a circular orbit?",
+  opts:[["U = −GMm / R",0,"That’s gravitational potential energy only. Total energy combines U <i>and</i> K."],
+        ["K = ½mv²",0,"That’s kinetic energy only. Total energy combines U <i>and</i> K."],
+        ["E = −GMm / 2R",1,""],
+        ["E = +GMm / 2R",0,"Check the sign. A satellite in orbit is still held by Earth’s gravity, so its total energy is below zero."]]},
+ /* Part 2 – Explain */
+ e1:{type:"mc",label:"Speed in the higher orbit",prompt:"Compared with the lower orbit, a satellite in the <b>higher</b> circular orbit moves…",
+  opts:[["Faster",0,"Watch the animation again and compare how long one lap takes. Then compare the K bars, since K = ½mv²."],
+        ["Slower",1,""],
+        ["At the same speed",0,"Compare the K (kinetic energy) bars in the two views. K depends on speed."]]},
+ e2:{type:"mc",label:"Total energy in the higher orbit",prompt:"Moving from the lower orbit to the higher orbit, the satellite’s <b>total energy E</b>…",
+  opts:[["Increases (gets closer to zero)",1,""],
+        ["Decreases (gets more negative)",0,"Look where the E bar ends compared with the zero line. A negative number that moves toward zero is <i>increasing</i>."],
+        ["Stays the same",0,"Switch between the two orbits and compare the E bars closely."]]},
+ e3:{type:"mc",label:"How to add orbital energy",prompt:"To move a satellite to a higher orbit, its total energy has to <b>increase</b>. How can that happen?",
+  opts:[["Fire the satellite’s thrusters (or a rocket stage) to change its speed",1,""],
+        ["Wait. Gravity will slowly push it outward.",0,"Gravity always pulls the satellite toward Earth. Something else has to add the energy."],
+        ["Shut off its equipment to make it lighter",0,"Switching things off doesn’t add any energy to the orbit."],
+        ["Nothing is needed. The higher orbit is slower, so it needs less energy.",0,"It is slower, but Part 2 showed that the higher orbit’s <i>total</i> energy is greater. That energy has to come from somewhere."]]},
+
+ /* Problem 1: U, 15,000 kg, 800 km */
+ p1r:{type:"num",label:"P1 · R",prompt:"Find <b>R</b> in meters.",guide:"R = radius of Earth + satellite altitude. Convert 800 km to meters first.",unit:"m",
+  ans:()=>RE+km(800), traps:()=>[[km(800),M.alt],[RE,M.earthOnly],[RE+800,M.kmLeft]],
+  hint:"800 km × 1,000 = 8.00 × 10<sup>5</sup> m. Add that to 6.378 × 10<sup>6</sup> m."},
+ p1n:{type:"num",label:"P1 · G·M·m",prompt:"Calculate the top of the fraction: <b>G × M<sub>Earth</sub> × m</b>.",guide:"Multiply the three numbers. This is only the numerator, so there’s no unit to enter yet.",unit:"",
+  ans:()=>GMe*15000, traps:()=>[],
+  hint:"On your calculator: 6.67 EE −11 × 5.98 EE 24 × 15000"},
+ p1u:{type:"num",label:"P1 · U",prompt:"Find <b>U</b>: divide your Step 2 answer by your Step 1 answer.",guide:"U = −GMm / R. Don’t forget the minus sign.",unit:"J",
+  ans:()=>-GMe*15000/(RE+km(800)), traps:()=>{const n=GMe*15000;return[[-n/km(800),M.alt],[-n/(2*(RE+km(800))),M.extraTwo],[-n/RE,M.earthOnly]]},
+  sign:M.signU, hint:"U = −(Step 2) ÷ (Step 1). Put a minus sign in front of the result."},
+
+ /* Problem 2: find altitude, 10,000 kg, U = -5.58e11 */
+ p2n:{type:"num",label:"P2 · G·M·m",prompt:"Calculate <b>G × M<sub>Earth</sub> × m</b> for this satellite.",unit:"",
+  ans:()=>GMe*1e4, traps:()=>[], hint:"Same as Problem 1, Step 2, but with m = 10,000 kg."},
+ p2r:{type:"num",label:"P2 · R",prompt:"Find <b>R</b>, the distance from Earth’s center.",guide:"Rearrange U = −GMm/R to get R = GMm ÷ (−U). Because U is negative, R comes out positive.",unit:"m",
+  ans:()=>GMe*1e4/5.58e11, traps:()=>{const r=GMe*1e4/5.58e11;return[[r-RE,"That already looks like the altitude. This step asks for the full distance R. You’ll subtract in the next step."]]},
+  sign:"A distance can’t be negative. Dividing by −U (a positive number) cancels the minus signs.",
+  hint:"R = (your Step 1 answer) ÷ (5.58 × 10<sup>11</sup>)"},
+ p2a:{type:"num",label:"P2 · altitude",prompt:"The question asks for the distance from Earth’s <b>surface</b>. Find the <b>altitude</b>.",guide:"Undo the R formula: altitude = R − radius of Earth.",unit:"m",
+  ans:()=>GMe*1e4/5.58e11-RE, traps:()=>{const r=GMe*1e4/5.58e11;return[[r,"That’s R, measured from Earth’s center. The question asks for the distance from the surface."],[r+RE,"Subtract the radius of Earth instead of adding it."]]},
+  sign:"Check the order: altitude = R − radius of Earth.",
+  hint:"Altitude = (your Step 2 answer) − 6.378 × 10<sup>6</sup> m"},
+
+ /* Problem 3: total energy, 175,000 kg, 600 km */
+ p3r:{type:"num",label:"P3 · R",prompt:"Find <b>R</b> in meters.",unit:"m",
+  ans:()=>RE+km(600), traps:()=>[[km(600),M.alt],[RE,M.earthOnly],[RE+600,M.kmLeft]],
+  hint:"Same method as Problem 1, Step 1, using 600 km."},
+ p3e:{type:"num",label:"P3 · E",prompt:"Find the <b>total energy E</b>.",guide:"Use the Total Energy of an Orbit formula.",unit:"J",
+  ans:()=>-GMe*175000/(2*(RE+km(600))), traps:()=>{const n=GMe*175000;return[[-n/(RE+km(600)),M.two],[-n/(2*km(600)),M.alt],[-n/km(600),M.alt],[-n/(2*RE),M.earthOnly]]},
+  sign:"Check your sign. The satellite is still in orbit, so its total energy is below zero.",
+  hint:"E = −(G × M<sub>Earth</sub> × 175,000) ÷ (2 × your Step 1 answer)"},
+
+ /* Problem 4: mass, E = -4.4e11, 650 km */
+ p4r:{type:"num",label:"P4 · R",prompt:"Find <b>R</b> in meters.",unit:"m",
+  ans:()=>RE+km(650), traps:()=>[[km(650),M.alt],[RE,M.earthOnly],[RE+650,M.kmLeft]],
+  hint:"Radius of Earth + 650 km (converted to meters)."},
+ p4m:{type:"num",label:"P4 · mass",prompt:"Find the satellite’s <b>mass m</b>.",guide:"Rearrange E = −GMm/2R to solve for m.",unit:"kg",
+  ans:()=>4.4e11*2*(RE+km(650))/GMe, traps:()=>{const R=RE+km(650);return[[4.4e11*R/GMe,M.two],[4.4e11*2*km(650)/GMe,M.alt],[4.4e11*2*RE/GMe,M.earthOnly]]},
+  sign:"Mass can’t be negative. E is negative and the formula has a minus sign, so the two cancel.",
+  hint:"m = (−E × 2R) ÷ (G × M<sub>Earth</sub>). Here −E = +4.4 × 10<sup>11</sup> J."},
+
+ /* Problem 5: Julu, 14,000 kg, 400 → 700 km */
+ p5a:{type:"num",label:"P5 · E₁ (400 km)",prompt:"Total energy in the <b>starting</b> orbit, E<sub>1</sub> (400 km).",unit:"J",
+  ans:()=>-GMj*14000/(2*(RJ+km(400))), traps:()=>p5traps(400),sign:"Check your sign. An orbiting satellite has negative total energy.",
+  hint:"Same method as Problem 3, but use <b>Julu’s</b> mass and radius. Convert Julu’s radius to meters as well."},
+ p5b:{type:"num",label:"P5 · E₂ (700 km)",prompt:"Total energy in the <b>final</b> orbit, E<sub>2</sub> (700 km).",unit:"J",
+  ans:()=>-GMj*14000/(2*(RJ+km(700))), traps:()=>p5traps(700),sign:"Check your sign. An orbiting satellite has negative total energy.",
+  hint:"Repeat your E<sub>1</sub> calculation with the 700 km altitude."},
+ p5c:{type:"num",label:"P5 · E change",prompt:"Energy needed for the orbit change, <b>E<sub>change</sub></b>.",unit:"J",
+  ans:()=>p5E(700)-p5E(400), traps:()=>{const a=p5E(400),b=p5E(700);return[[a+b,"It looks like you added. Subtract instead: E<sub>2</sub> − E<sub>1</sub>. Subtracting a negative number is the same as adding a positive one."],[-(a+b),"It looks like you added. Subtract instead: E<sub>2</sub> − E<sub>1</sub>."],[1e7,"That looks like rounding before subtracting. Use more digits in E<sub>1</sub> and E<sub>2</sub> (see the worked example)."],[2e7,"That looks like rounding before subtracting. Use more digits in E<sub>1</sub> and E<sub>2</sub> (see the worked example)."]]},
+  sign:"Check the order: final minus initial, E<sub>2</sub> − E<sub>1</sub>. Energy is being added, so the answer should be positive.",
+  hint:"E<sub>change</sub> = (your E<sub>2</sub>) − (your E<sub>1</sub>). Use parentheses around each negative number."}
+};
+function p5E(alt){return -GMj*14000/(2*(RJ+km(alt)));}
+function p5traps(alt){const n=GMj*14000,R=RJ+km(alt);return[
+ [-GMe*14000/(2*R),"It looks like you used Earth’s mass. This planet is Julu, so use M<sub>Julu</sub> = 3.74 × 10<sup>21</sup> kg."],
+ [-GMe*14000/(2*(RE+km(alt))),"It looks like you used Earth’s mass and radius. Use Julu’s values."],
+ [-n/(2*(RE+km(alt))),"It looks like you used the radius of Earth. Use Julu’s radius: 5.4 × 10<sup>3</sup> km = 5.4 × 10<sup>6</sup> m."],
+ [-n/R,M.two],[-n/(2*km(alt)),"That looks like you used only the altitude. R = radius of Julu + altitude."],[-n/(2*(RJ/1000+km(alt))),"Julu’s radius is given in km. Convert it to meters too."]];}
+
+const PROBLEMS=[
+ {id:"p1",n:1,title:"Gravitational potential energy",level:["Fully guided","lv1"],pts:3,
+  prompt:"A <b>15,000 kg</b> satellite is orbiting <b>800 km</b> above Earth’s surface. How much potential energy does it have?",steps:["p1r","p1n","p1u"]},
+ {id:"p2",n:2,title:"Working backward to altitude",level:["Guided","lv2"],pts:3,
+  prompt:"At what distance from Earth’s surface is a <b>10,000 kg</b> satellite if its potential energy equals <b>−5.58 × 10<sup>11</sup> J</b>?",steps:["p2n","p2r","p2a"]},
+ {id:"p3",n:3,title:"Total energy of an orbit",level:["Some help","lv3"],pts:2,
+  prompt:"What is the total energy of a <b>175,000 kg</b> shuttle orbiting <b>600 km</b> above Earth’s surface?",steps:["p3r","p3e"]},
+ {id:"p4",n:4,title:"Solving for mass",level:["Some help","lv3"],pts:2,
+  prompt:"A satellite has a total energy of <b>−4.4 × 10<sup>11</sup> J</b>. It is orbiting <b>650 km</b> above Earth’s surface. What is the mass of the satellite?",steps:["p4r","p4m"]},
+ {id:"p5",n:5,title:"Changing orbit altitudes on planet Julu",level:["On your own","lv4"],pts:3,
+  prompt:"A research satellite (<b>14,000 kg</b>) is orbiting the fictional planet Julu at an altitude of <b>400 km</b>. The researchers want it at an altitude of <b>700 km</b> to take some specific pictures. How much energy is needed for this orbit change?<br><span class=\"small\">R<sub>Julu</sub> = 5.4 × 10<sup>3</sup> km · M<sub>Julu</sub> = 3.74 × 10<sup>21</sup> kg</span>",
+  steps:["p5a","p5b","p5c"],ownWay:true}
+];
+const ORDER=["i1","i2","i3","i4","e1","e2","e3",...PROBLEMS.flatMap(p=>p.steps)];
+const TOTAL=ORDER.length; // 20
+
+/* ---------- state ---------- */
+const KEY="pltw-ae-physics-of-orbits-guided-v1";
+let S={name:"",period:"",date:"",started:null,items:{},work:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.items)S=Object.assign(S,s);}catch(e){}
+ORDER.forEach(id=>{if(!S.items[id])S.items[id]={v:"",ok:false,tries:0,t:null,hint:false};});
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function touch(){if(!S.started)S.started=new Date().toISOString();}
+
+/* ---------- number parsing ---------- */
+const SUP={"⁰":"0","¹":"1","²":"2","³":"3","⁴":"4","⁵":"5","⁶":"6","⁷":"7","⁸":"8","⁹":"9","⁻":"-","⁺":"+"};
+function parseNum(raw){
+ let s=String(raw).trim().replace(/[−–—]/g,"-").replace(/,/g,"").replace(/\s+/g," ");
+ s=s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g,m=>"^"+[...m].map(c=>SUP[c]).join(""));
+ s=s.replace(/\s*(kg|j|m|joules?|meters?|kilograms?)\.?\s*$/i,"");
+ const m=s.match(/^([+-]?\s*(?:\d+\.?\d*|\.\d+))\s*(?:(?:[eE]\s*([+-]?\d+))|(?:(?:x|X|×|\*|·)\s*10\s*(?:\^|\*\*)?\s*\(?\s*([+-]?\d+)\s*\)?))?$/);
+ if(!m)return NaN;
+ const base=parseFloat(m[1].replace(/\s/g,"")),ex=m[2]??m[3];
+ return ex!==undefined?base*Math.pow(10,parseInt(ex,10)):base;
+}
+const near=(x,c)=>Math.abs(x-c)<=Math.abs(c)*TOL;
+function judge(item,x){
+ const c=item.ans();
+ if(near(x,c))return{ok:true};
+ for(const [v,msg] of item.traps())if(near(x,v))return{msg};
+ if(near(x,-c))return{msg:item.sign||"Check your sign (+ or −)."};
+ const r=x/c;
+ if(r>0){const l=Math.log10(r),k=Math.round(l);if(k!==0&&Math.abs(l-k)<0.0065)return{msg:M.pow};}
+ return{msg:M.generic};
+}
+
+/* ---------- rendering ---------- */
+function itemHTML(id,stepLabel){
+ const it=ITEMS[id];
+ const head=`<div class="item-head"><span class="stepnum">${stepLabel}</span><div class="item-prompt">${it.prompt}${it.guide?`<p class="guide">${it.guide}</p>`:""}</div><span class="item-pt">1 pt</span></div>`;
+ if(it.type==="mc"){
+  return `<div class="item" id="it_${id}" data-id="${id}">${head}<div class="choices" role="group">${it.opts.map((o,k)=>`<button class="choice" data-k="${k}">${o[0]}</button>`).join("")}</div><div class="fb" aria-live="polite"></div></div>`;
+ }
+ return `<div class="item" id="it_${id}" data-id="${id}">${head}<div class="answer-row"><input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-label="${it.label} answer"><span class="unit">${it.unit||""}</span><button class="btn primary small chk">Check</button><button class="btn small hb" hidden>💡 Hint</button></div><div class="fb" aria-live="polite"></div><div class="hintbox" hidden>${it.hint||""}</div></div>`;
+}
+document.querySelectorAll("[data-mount]").forEach(el=>{const id=el.dataset.mount;const n=ORDER.indexOf(id)+1;el.outerHTML=itemHTML(id,"Q"+n);});
+PROBLEMS.forEach(p=>{
+ const el=document.querySelector(`[data-problem="${p.id}"]`);
+ const steps=p.steps.map((id,k)=>itemHTML(id,p.ownWay?["E₁","E₂","ΔE"][k]:"Step "+(k+1))).join("");
+ el.outerHTML=`<article class="card problem" id="${p.id}"><div class="prob-head"><span class="qnum">${p.n}</span><h3 style="margin:0">${p.title}</h3><span class="level ${p.level[1]}">${p.level[0]}</span><span class="prob-pts">${p.pts} pts</span></div><div class="prompt">${p.prompt}</div>${p.ownWay?`<p class="guide">Plan this one yourself. Use the Changing Orbit Altitudes worked example above as your model. Hints are still there if you get stuck.</p>`:""}${steps}<div class="prob-done">✓ Problem ${p.n} complete</div><details class="work"><summary>✏️ My work (optional, included in your report)</summary><textarea data-work="${p.id}" placeholder="Write your formulas and calculator steps here, or keep them in your notebook."></textarea></details></article>`;
+});
+
+/* ---------- interaction ---------- */
+function refreshItem(id){
+ const it=ITEMS[id],st=S.items[id],el=$("it_"+id);
+ el.classList.toggle("done",st.ok);
+ const fb=el.querySelector(".fb");
+ if(it.type==="mc"){
+  el.querySelectorAll(".choice").forEach(b=>{b.disabled=st.ok;b.classList.toggle("picked-right",st.ok&&b.textContent===st.v);});
+  if(st.ok){fb.className="fb good";fb.textContent="✓ Correct";}
+ }else{
+  const inp=el.querySelector("input");inp.value=st.v;inp.readOnly=st.ok;
+  el.querySelector(".chk").disabled=st.ok;
+  const hb=el.querySelector(".hb");hb.hidden=st.ok||st.tries<1;
+  el.querySelector(".hintbox").hidden=!(st.hint&&!st.ok);
+  if(st.ok){fb.className="fb good";fb.textContent="✓ Correct";}
+ }
+}
+function lockSteps(){
+ PROBLEMS.forEach(p=>{
+  let open=true;
+  p.steps.forEach(id=>{
+   const el=$("it_"+id),locked=!open;
+   el.classList.toggle("locked",locked);
+   el.querySelectorAll("input,.chk").forEach(x=>{if(!S.items[id].ok)x.disabled=locked;});
+   if(locked&&!S.items[id].ok){const fb=el.querySelector(".fb");fb.className="fb";fb.textContent="🔒 Finish the step above first.";}
+   else if(!S.items[id].ok){const fb=el.querySelector(".fb");if(fb.textContent.startsWith("🔒"))fb.textContent="";}
+   if(!S.items[id].ok)open=false;
+  });
+  $(p.id).classList.toggle("complete",p.steps.every(id=>S.items[id].ok));
+ });
+}
+function score(){return ORDER.filter(id=>S.items[id].ok).length;}
+function refreshScore(){
+ const s=score();$("scoreChip").textContent=`${s} / ${TOTAL}`;$("finalScore").textContent=`${s} / ${TOTAL}`;$("finalBar").style.width=(s/TOTAL*100)+"%";
+ const miss=ORDER.filter(id=>!S.items[id].ok);
+ $("todo").innerHTML=miss.length?`<b>Still to do (${miss.length}):</b> `+miss.map(id=>`<a href="#it_${id}">${ITEMS[id].label}</a>`).join(" · "):`<b style="color:var(--good)">🎉 Every answer is correct. Export your report below.</b>`;
+ if(S.items.i1.ok)drawR();
+}
+function checkNum(id){
+ const it=ITEMS[id],st=S.items[id],el=$("it_"+id),inp=el.querySelector("input"),fb=el.querySelector(".fb");
+ if(st.ok||inp.disabled)return;
+ const raw=inp.value.trim();if(!raw){fb.className="fb retry";fb.textContent="Type an answer first.";return;}
+ const x=parseNum(raw);
+ if(!isFinite(x)){fb.className="fb retry";fb.innerHTML=M.parse;return;}
+ touch();st.v=raw;st.tries++;
+ const r=judge(it,x);
+ if(r.ok){st.ok=true;st.t=new Date().toISOString();}
+ else{fb.className="fb retry";fb.innerHTML="✗ "+r.msg+(st.tries===1?" <span class=\"small\">(A hint is available now.)</span>":"");}
+ save();refreshItem(id);lockSteps();refreshScore();
+ if(r.ok){const nxt=el.nextElementSibling;const ni=nxt&&nxt.classList.contains("item")?nxt.querySelector("input"):null;if(ni&&!ni.disabled)ni.focus();}
+}
+document.querySelectorAll(".item").forEach(el=>{
+ const id=el.dataset.id,it=ITEMS[id];
+ if(it.type==="mc"){
+  el.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{
+   const st=S.items[id];if(st.ok)return;touch();st.tries++;st.v=b.textContent;
+   const o=it.opts[+b.dataset.k],fb=el.querySelector(".fb");
+   el.querySelectorAll(".choice").forEach(c=>c.classList.remove("picked-wrong"));
+   if(o[1]){st.ok=true;st.t=new Date().toISOString();}
+   else{b.classList.add("picked-wrong");fb.className="fb retry";fb.innerHTML="✗ "+o[2];}
+   save();refreshItem(id);refreshScore();
+  });
+ }else{
+  el.querySelector(".chk").onclick=()=>checkNum(id);
+  el.querySelector("input").addEventListener("keydown",e=>{if(e.key==="Enter")checkNum(id);});
+  el.querySelector("input").addEventListener("input",e=>{if(!S.items[id].ok){S.items[id].v=e.target.value;save();}});
+  el.querySelector(".hb").onclick=()=>{S.items[id].hint=true;save();refreshItem(id);};
+ }
+});
+document.querySelectorAll("[data-work]").forEach(t=>{t.value=S.work[t.dataset.work]||"";if(t.value)t.closest("details").open=true;t.oninput=()=>{S.work[t.dataset.work]=t.value;save();};});
+[["f_name","name"],["f_period","period"],["f_date","date"]].forEach(([e,k])=>{$(e).value=S[k]||"";$(e).oninput=()=>{S[k]=$(e).value;save();};});
+if(!$("f_date").value){const d=new Date();$("f_date").value=S.date=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+
+/* worked-example reveal */
+document.querySelectorAll("[data-reveal]").forEach(b=>b.onclick=()=>{const li=[...$(b.dataset.reveal).children].find(x=>!x.classList.contains("show"));if(li)li.classList.add("show");if(![...$(b.dataset.reveal).children].some(x=>!x.classList.contains("show"))){b.disabled=true;b.textContent="All steps shown";}});
+document.querySelectorAll("[data-revealall]").forEach(b=>b.onclick=()=>{[...$(b.dataset.revealall).children].forEach(x=>x.classList.add("show"));const nb=document.querySelector(`[data-reveal="${b.dataset.revealall}"]`);nb.disabled=true;nb.textContent="All steps shown";});
+
+/* reference drawer */
+function setRef(o){$("ref").classList.toggle("open",o);$("ref").setAttribute("aria-hidden",!o);$("refBtn").setAttribute("aria-expanded",o);if(o)$("refClose").focus();}
+$("refBtn").onclick=()=>setRef(!$("ref").classList.contains("open"));$("refClose").onclick=()=>setRef(false);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")setRef(false);});
+
+/* ---------- R diagram ---------- */
+const NS="http://www.w3.org/2000/svg";
+function svgEl(tag,a,txt){const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);if(txt!==undefined)e.textContent=txt;return e;}
+function arrowLine(g,x1,y1,x2,y2,col){g.append(svgEl("line",{x1,y1,x2,y2,stroke:col,"stroke-width":4,"marker-end":`url(#ah${col.slice(1)})`,"marker-start":`url(#at${col.slice(1)})`}));}
+function drawR(){
+ const svg=$("rSvg");svg.replaceChildren();
+ const cols=["#72cfff","#ffd26e","#63e6be"],defs=svgEl("defs",{});
+ cols.forEach(c=>{const id=c.slice(1);
+  const m1=svgEl("marker",{id:"ah"+id,markerWidth:8,markerHeight:8,refX:7,refY:4,orient:"auto"});m1.append(svgEl("path",{d:"M0,0 L8,4 L0,8 z",fill:c}));
+  const m2=svgEl("marker",{id:"at"+id,markerWidth:8,markerHeight:8,refX:1,refY:4,orient:"auto"});m2.append(svgEl("path",{d:"M8,0 L0,4 L8,8 z",fill:c}));defs.append(m1,m2);});
+ svg.append(defs);
+ const cx=150,cy=160,r=112,sx=330+(+$("rSlider").value)*2.6;
+ svg.append(svgEl("circle",{cx,cy,r,fill:"#1e5576",stroke:"#71c5e5","stroke-width":2}));
+ svg.append(svgEl("text",{x:cx,y:cy-r-12,fill:"#bfd6ec","font-size":17,"text-anchor":"middle"},"Earth"));
+ svg.append(svgEl("circle",{cx,cy,r:4,fill:"#fff"}));
+ svg.append(svgEl("text",{x:cx,y:cy+22,fill:"#bfd6ec","font-size":13,"text-anchor":"middle"},"center"));
+ const g=svgEl("g",{});svg.append(g);
+ arrowLine(g,cx+4,cy,cx+r-2,cy,cols[0]);
+ arrowLine(g,cx+r+3,cy,sx-22,cy,cols[1]);
+ svg.append(svgEl("line",{x1:cx,y1:cy+6,x2:cx,y2:282,stroke:"#8aa0b6","stroke-dasharray":"4 5"}));
+ svg.append(svgEl("line",{x1:sx,y1:cy+16,x2:sx,y2:282,stroke:"#8aa0b6","stroke-dasharray":"4 5"}));
+ arrowLine(g,cx+2,272,sx-2,272,cols[2]);
+ // satellite
+ svg.append(svgEl("rect",{x:sx-10,y:cy-10,width:20,height:20,fill:"#d9e5f2"}));
+ svg.append(svgEl("rect",{x:sx-34,y:cy-14,width:20,height:28,fill:"#4da9cb"}));
+ svg.append(svgEl("rect",{x:sx+14,y:cy-14,width:20,height:28,fill:"#4da9cb"}));
+ svg.append(svgEl("text",{x:sx,y:cy-24,fill:"#dceaff","font-size":15,"text-anchor":"middle"},"satellite"));
+ const solved=S.items.i1&&S.items.i1.ok;
+ const lab=(t,x,y,c)=>svg.append(svgEl("text",{x,y,fill:c,"font-size":solved?15:24,"font-weight":800,"text-anchor":"middle"},t));
+ lab(solved?"A · radius of Earth":"A",cx+r/2,cy-12,cols[0]);
+ lab(solved?"B · altitude":"B",(cx+r+sx)/2,cy-12,cols[1]);
+ lab(solved?"C · R = radius of Earth + altitude":"C",(cx+sx)/2,300,cols[2]);
+}
+$("rSlider").oninput=drawR;
+
+/* ---------- orbit + energy visual ---------- */
+let view="low",playing=!window.matchMedia("(prefers-reduced-motion: reduce)").matches,ang=0,last=0,barK=1;
+const ORB={low:{r:72},high:{r:118}};
+function drawOrbit(){
+ const svg=$("orbitSvg");svg.replaceChildren();const cx=180,cy=150;
+ svg.append(svgEl("circle",{cx,cy,r:42,fill:"#205777"}));
+ svg.append(svgEl("text",{x:cx,y:cy+5,fill:"#c7e8f7","font-size":14,"text-anchor":"middle"},"Earth"));
+ for(const k of ["low","high"])svg.append(svgEl("circle",{cx,cy,r:ORB[k].r,fill:"none",stroke:k===view?"#ffd26e":"#5f7a9a","stroke-width":k===view?2.5:1.5,"stroke-dasharray":k===view?"":"4 6"}));
+ const r=ORB[view].r,x=cx+r*Math.cos(ang),y=cy-r*Math.sin(ang);
+ // trail
+ for(let i=1;i<=10;i++){const a=ang-i*0.07*(view==="low"?1:0.6);svg.append(svgEl("circle",{cx:cx+r*Math.cos(a),cy:cy-r*Math.sin(a),r:3,fill:"#ffd26e",opacity:(1-i/11)*.5}));}
+ svg.append(svgEl("circle",{cx:x,cy:y,r:7,fill:"#fff"}));
+ svg.append(svgEl("text",{x:12,y:22,fill:"#adc0dc","font-size":13,"font-weight":700},view==="low"?"LOWER CIRCULAR ORBIT":"HIGHER CIRCULAR ORBIT"));
+}
+function drawBars(){
+ const svg=$("barSvg");svg.replaceChildren();const base=120,u=50;
+ svg.append(svgEl("text",{x:12,y:22,fill:"#adc0dc","font-size":13,"font-weight":700},"ENERGY"));
+ svg.append(svgEl("line",{x1:30,y1:base,x2:345,y2:base,stroke:"#d9e6f4","stroke-width":2}));
+ svg.append(svgEl("text",{x:20,y:base+5,fill:"#d9e6f4","font-size":14,"text-anchor":"middle"},"0"));
+ const bars=[["K",barK,"#ffd26e","kinetic"],["U",-2*barK,"#72cfff","potential"],["E",-barK,"#63e6be","total"]];
+ bars.forEach(([n,v,c,d],i)=>{const x=70+i*100,h=v*u;
+  svg.append(svgEl("rect",{x:x-28,y:h>0?base-h:base,width:56,height:Math.abs(h),fill:c,rx:3}));
+  svg.append(svgEl("text",{x,y:h>0?base-h-8:base-8,fill:"#e5effc","font-size":18,"font-weight":800,"text-anchor":"middle"},n));
+  svg.append(svgEl("text",{x,y:292,fill:"#c4d7eb","font-size":13,"text-anchor":"middle"},d));});
+}
+function setView(v){view=v;document.querySelectorAll("[data-orbit]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.orbit===v));if(!playing){barK=v==="low"?1:ORB.low.r/ORB.high.r;drawBars();}drawOrbit();}
+document.querySelectorAll("[data-orbit]").forEach(b=>b.onclick=()=>setView(b.dataset.orbit));
+function setPlay(p){playing=p;$("playBtn").textContent=p?"⏸ Pause":"▶ Play";$("playBtn").setAttribute("aria-pressed",p);}
+$("playBtn").onclick=()=>setPlay(!playing);setPlay(playing);
+function tick(t){
+ const dt=Math.min((t-(last||t))/1000,.1);last=t;
+ const target=view==="low"?1:ORB.low.r/ORB.high.r;
+ if(Math.abs(barK-target)>.002){barK+=(target-barK)*Math.min(1,dt*6);drawBars();}
+ if(playing&&!document.hidden){const w=1.1*Math.pow(ORB.low.r/ORB[view].r,1.5);ang+=dt*w;drawOrbit();}
+ requestAnimationFrame(tick);
+}
+
+/* ---------- report ---------- */
+function fmtTime(iso){if(!iso)return"";const d=new Date(iso);return d.toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});}
+function tx(tag,text,cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}
+function buildReport(){
+ const R=$("report");R.replaceChildren();
+ R.append(tx("h1","Physics of Orbits · Student Report"));
+ const meta=document.createElement("div");meta.className="meta";
+ meta.append(tx("div",`Name: ${S.name.trim()||"[not entered]"}  ·  Period: ${S.period.trim()||"[not entered]"}  ·  Date: ${S.date||"[not entered]"}`));
+ meta.append(tx("div",`Score: ${score()} / ${TOTAL}  ·  Started: ${fmtTime(S.started)||"—"}  ·  Exported: ${fmtTime(new Date().toISOString())}`));
+ meta.lastChild.style.fontWeight="bold";R.append(meta);
+ const groups=[["Part 1 · Identify",["i1","i2","i3","i4"]],["Part 2 · Explain",["e1","e2","e3"]],...PROBLEMS.map(p=>[`Problem ${p.n} · ${p.title}`,p.steps,p.id])];
+ groups.forEach(([title,ids,pid])=>{
+  R.append(tx("h2",title));
+  const t=document.createElement("table");
+  const hr=document.createElement("tr");["Item","Student answer","Result","Tries","Completed"].forEach(h=>hr.append(tx("th",h)));t.append(hr);
+  ids.forEach(id=>{const st=S.items[id],tr=document.createElement("tr");
+   [ITEMS[id].label+(ITEMS[id].unit?` (${ITEMS[id].unit})`:""),st.v||"[blank]",st.ok?"✓":(st.tries?"✗":"—"),String(st.tries),st.ok?fmtTime(st.t):""].forEach(c=>tr.append(tx("td",c)));t.append(tr);});
+  R.append(t);
+  if(pid&&(S.work[pid]||"").trim()){R.append(tx("div","Work notes:"));R.append(tx("div",S.work[pid],"notes"));}
+ });
+ R.append(tx("div","PLTW Aerospace Engineering · Physics of Orbits · 1 point per correct item, unlimited tries","foot"));
+}
+window.addEventListener("beforeprint",buildReport);
+$("exportBtn").onclick=()=>{buildReport();$("exportMsg").textContent=S.name.trim()?"":"Tip: enter your name at the top so your teacher knows whose report this is.";window.print();};
+
+/* ---------- init ---------- */
+ORDER.forEach(refreshItem);lockSteps();refreshScore();drawR();drawOrbit();drawBars();requestAnimationFrame(tick);
+</script>
+</body>
+</html>
